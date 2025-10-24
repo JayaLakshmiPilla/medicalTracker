@@ -251,3 +251,4 @@ Once deployed, your application will be available at:
 ---
 
 **Your MediCare AI application is now live! 🚀**
+

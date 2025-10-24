@@ -144,3 +144,4 @@ To update your application:
 **Your MediCare AI application is now live! 🚀**
 
 No local installation required - everything runs in the cloud!
+
