@@ -1,3 +1,4 @@
+// ...existing code...
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -19,33 +20,37 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relations
-  medications     Medication[]
-  notifications    Notification[]
-  caregivers      Caregiver[]
-  adherenceEvents AdherenceEvent[]
-  prescriptions   Prescription[]
+  medications       Medication[]
+  notifications     Notification[]
+  caregivers        Caregiver[]
+  adherenceEvents   AdherenceEvent[]
+  prescriptions     Prescription[]
   emergencyContacts EmergencyContact[]
+
+  // Added back-relations required by other models
+  escalationRules EscalationRule[]
+  scanHistories   ScanHistory[]
 
   @@map("users")
 }
 
 model Medication {
-  id          String   @id @default(cuid())
-  name        String
-  genericName String?
-  dosage      String
-  frequency   String
-  times       String[] // Array of time strings like ["08:00", "20:00"]
-  startDate   DateTime
-  endDate     DateTime?
-  instructions String?
-  color       String   @default("blue")
-  reminder    Boolean  @default(true)
-  reminderMinutes Int @default(15)
-  isActive    Boolean  @default(true)
-  userId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String    @id @default(cuid())
+  name            String
+  genericName     String?
+  dosage          String
+  frequency       String
+  times           String[] // Array of time strings like ["08:00", "20:00"]
+  startDate       DateTime
+  endDate         DateTime?
+  instructions    String?
+  color           String    @default("blue")
+  reminder        Boolean   @default(true)
+  reminderMinutes Int       @default(15)
+  isActive        Boolean   @default(true)
+  userId          String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   // Relations
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -57,21 +62,21 @@ model Medication {
 }
 
 model Notification {
-  id            String   @id @default(cuid())
-  type          String   // 'medication', 'reminder', 'warning', 'appointment', 'refill'
+  id            String    @id @default(cuid())
+  type          String // 'medication', 'reminder', 'warning', 'appointment', 'refill'
   title         String
   message       String
-  priority      String   // 'low', 'medium', 'high', 'urgent'
+  priority      String // 'low', 'medium', 'high', 'urgent'
   channels      String[] // ['push', 'email', 'sms', 'in-app']
-  isRead        Boolean  @default(false)
-  isActive      Boolean  @default(true)
+  isRead        Boolean   @default(false)
+  isActive      Boolean   @default(true)
   scheduledTime DateTime?
   sentAt        DateTime?
   userId        String
   medicationId  String?
   caregiverId   String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   // Relations
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -82,35 +87,35 @@ model Notification {
 }
 
 model Caregiver {
-  id          String   @id @default(cuid())
-  name        String
+  id           String   @id @default(cuid())
+  name         String
   relationship String
-  email       String?
-  phone       String?
-  channels    String[] // ['push', 'email', 'sms']
-  quietHours  Json?    // { start: "22:00", end: "07:00" }
-  isActive    Boolean  @default(true)
-  userId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  email        String?
+  phone        String?
+  channels     String[] // ['push', 'email', 'sms']
+  quietHours   Json? // { start: "22:00", end: "07:00" }
+  isActive     Boolean  @default(true)
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   // Relations
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  notifications Notification[]
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notifications   Notification[]
   escalationRules EscalationRule[]
 
   @@map("caregivers")
 }
 
 model EscalationRule {
-  id            String   @id @default(cuid())
-  condition     String   // 'missed', 'urgent', 'warning'
+  id               String   @id @default(cuid())
+  condition        String // 'missed', 'urgent', 'warning'
   thresholdMinutes Int?
-  isActive      Boolean  @default(true)
-  caregiverId   String
-  userId        String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  isActive         Boolean  @default(true)
+  caregiverId      String
+  userId           String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   // Relations
   caregiver Caregiver @relation(fields: [caregiverId], references: [id], onDelete: Cascade)
@@ -139,7 +144,7 @@ model AdherenceEvent {
 }
 
 model Prescription {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   medicationId String
   doctorName   String
   doctorPhone  String?
@@ -147,11 +152,11 @@ model Prescription {
   instructions String?
   startDate    DateTime
   endDate      DateTime?
-  refills      Int      @default(0)
-  isActive     Boolean  @default(true)
+  refills      Int       @default(0)
+  isActive     Boolean   @default(true)
   userId       String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   // Relations
   medication Medication @relation(fields: [medicationId], references: [id], onDelete: Cascade)
@@ -161,15 +166,15 @@ model Prescription {
 }
 
 model EmergencyContact {
-  id         String   @id @default(cuid())
-  name       String
-  phone      String
+  id           String   @id @default(cuid())
+  name         String
+  phone        String
   relationship String
-  priority   Int      @default(1)
-  isActive   Boolean  @default(true)
-  userId     String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  priority     Int      @default(1)
+  isActive     Boolean  @default(true)
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -178,14 +183,14 @@ model EmergencyContact {
 }
 
 model MedicationInteraction {
-  id                String   @id @default(cuid())
-  medication1Name   String
-  medication2Name   String
-  severity          String   // 'minor', 'moderate', 'major', 'contraindicated'
-  description       String
-  recommendations   String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id              String   @id @default(cuid())
+  medication1Name String
+  medication2Name String
+  severity        String // 'minor', 'moderate', 'major', 'contraindicated'
+  description     String
+  recommendations String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@unique([medication1Name, medication2Name])
   @@map("medication_interactions")
@@ -197,7 +202,7 @@ model ScanHistory {
   ocrText      String?
   medicationId String?
   confidence   Float
-  status       String   // 'success', 'warning', 'error'
+  status       String // 'success', 'warning', 'error'
   userId       String
   createdAt    DateTime @default(now())
 
@@ -207,3 +212,4 @@ model ScanHistory {
   @@map("scan_history")
 }
 
+// ...existing code...

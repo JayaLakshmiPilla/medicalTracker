@@ -1,0 +1,91 @@
+# ==========================================
+# Node / Next.js project files to ignore
+# ==========================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+# Build output
+.next/
+out/
+dist/
+build/
+.cache/
+
+# Logs
+logs
+*.log
+*.log.*
+lerna-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# TypeScript cache
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Prisma related
+prisma/dev.db
+prisma/test.db
+prisma/migrations/
+prisma/*.log
+
+# Docker related
+docker-compose.override.yml
+Docker_FIX.md
+
+# Local scripts or secrets
+scripts/setup.bat
+scripts/setup.sh
+
+# Render / Deployment artifacts
+render-build.sh
+render.yaml
+RENDER_DEPLOYMENT.md
+QUICK_DEPLOY.md
+
+# Compiled static assets
+public/uploads/
+public/temp/
+public/cache/
+
+# VS Code local history plugin
+.history/
+
+# ==========================================
+# End of .gitignore
+# ==========================================
+

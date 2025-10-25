@@ -10,7 +10,8 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   CalendarIcon,
-  UserGroupIcon
+  UserGroupIcon,
+  CameraIcon
 } from '@heroicons/react/24/outline'
 
 interface Medication {
